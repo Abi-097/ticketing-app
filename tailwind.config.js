@@ -19,6 +19,7 @@ module.exports = {
         //"#47566a", 4f5e74, ft #f1f3f4
         "card-hover": "#AAE3E2",
         "default-text": "#f1f3f4",
+        "default-text2": "black",
         "blue-accent": "#0084d4",
         "blue-accent-hover": "#009fff",
       },
