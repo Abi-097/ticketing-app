@@ -4,6 +4,15 @@ mongoose.connect(process.env.MONGODB);
 
 mongoose.Promise = global.Promise;
 
+// Listen for the connection events
+mongoose.connection.on("connected", () => {
+  console.log("Connected to MongoDB");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
+});
+
 const ticketSchema = new Schema(
   {
     title: String,
