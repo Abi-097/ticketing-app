@@ -1,9 +1,12 @@
 import EditTicket from "@/app/components/EditTicket";
 
 const getTicketById = async (id) => {
-  const res = await fetch(`http://localhost:3000/api/Tickets/${id}`, {
-    cache: "no-cache",
-  });
+  const res = await fetch(
+    `https://ticketing-app-swart.vercel.app/api/Tickets/${id}`,
+    {
+      cache: "no-cache",
+    }
+  );
   if (!res.ok) {
     throw new Error("Fail to get ticket");
   }
