@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const EditTicket = ({ ticket }) => {
-  const EDITMODE = ticket._id === "new" ? false : true;
+  const EDITMODE = ticket?._id === "new" ? false : true;
 
   const router = useRouter();
   const handleChange = (e) => {
@@ -71,7 +71,12 @@ const EditTicket = ({ ticket }) => {
         <h3>{EDITMODE ? "Update Your Ticket" : "Create Your Ticket"}</h3>
         <br />
 
-        <label>Title</label>
+        <label
+          htmlFor="title"
+          className="block text-lg font-large leading-3 text-gray-900"
+        >
+          Title
+        </label>
         <input
           id="title"
           name="title"
@@ -80,26 +85,37 @@ const EditTicket = ({ ticket }) => {
           required={true}
           value={formData.title}
         />
-        <label>Description</label>
-        <textarea
+
+        <label
+          htmlFor="description"
+          className="block text-lg font-large leading-3 text-gray-900"
+        >
+          Description
+        </label>
+        {/* <textarea
           id="description"
           name="description"
           onChange={handleChange}
           required={true}
           value={formData.description}
           rows="5"
-        />
-        <label>Category</label>
-        <select
-          name="category"
-          value={formData.category}
+        /> */}
+        <textarea
+          id="description"
+          name="description"
           onChange={handleChange}
+          required={true}
+          rows={6}
+          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-3"
+          value={formData.description}
+        />
+
+        <label
+          htmlFor="priority"
+          className="block text-lg font-large leading-3 text-gray-900"
         >
-          <option value="Hardware Problem">Hardware Problem</option>
-          <option value="Software Problem">Software Problem</option>
-          <option value="Project">Project</option>
-        </select>
-        <label>Priority</label>
+          Priority
+        </label>
         <div>
           <input
             id="priority-1"
@@ -109,7 +125,7 @@ const EditTicket = ({ ticket }) => {
             value={1}
             checked={formData.priority == 1}
           />
-          <label>1</label>
+          <label className=" text-lg font-large text-gray-900">1</label>
           <input
             id="priority-2"
             name="priority"
@@ -118,7 +134,7 @@ const EditTicket = ({ ticket }) => {
             value={2}
             checked={formData.priority == 2}
           />
-          <label>2</label>
+          <label className=" text-lg font-large text-gray-900">2</label>
           <input
             id="priority-3"
             name="priority"
@@ -127,7 +143,7 @@ const EditTicket = ({ ticket }) => {
             value={3}
             checked={formData.priority == 3}
           />
-          <label>3</label>
+          <label className=" text-lg font-large text-gray-900">3</label>
           <input
             id="priority-4"
             name="priority"
@@ -136,7 +152,7 @@ const EditTicket = ({ ticket }) => {
             value={4}
             checked={formData.priority == 4}
           />
-          <label>4</label>
+          <label className=" text-lg font-large text-gray-900">4</label>
           <input
             id="priority-5"
             name="priority"
@@ -145,9 +161,15 @@ const EditTicket = ({ ticket }) => {
             value={5}
             checked={formData.priority == 5}
           />
-          <label>5</label>
+          <label className=" text-lg font-large text-gray-900">5</label>
         </div>
-        <label>Progress</label>
+
+        <label
+          htmlFor="progress"
+          className="block text-lg font-large leading-3 text-gray-900"
+        >
+          Progress
+        </label>
         <input
           type="range"
           id="progress"
@@ -157,16 +179,44 @@ const EditTicket = ({ ticket }) => {
           max="100"
           onChange={handleChange}
         />
-        <label>Status</label>
-        <select name="status" value={formData.status} onChange={handleChange}>
-          <option value="not started"> Not Started</option>
+        <label
+          htmlFor="category"
+          className="block text-lg font-large leading-3 text-gray-900"
+        >
+          Category
+        </label>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+        >
+          <option value="Hardware Problem">Hardware Problem</option>
+          <option value="Software Problem">Software Problem</option>
+          <option value="Project">Project</option>
+        </select>
+        <label
+          htmlFor="status"
+          className="block text-lg font-large leading-3 text-gray-900"
+        >
+          Status
+        </label>
+        <select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+        >
+          <option value="not started">Not Started</option>
           <option value="started"> Started</option>
           <option value="done"> Done</option>
           <option value="hold"> Hold</option>
         </select>
         <input
           type="submit"
-          className="btn max-w-xs"
+          className={`btn max-w-xs ${
+            EDITMODE ? "bg-orange-500" : "bg-green-500"
+          }`}
           value={EDITMODE ? "Update Ticket" : "Create Ticket"}
         />
       </form>

@@ -1,15 +1,15 @@
 const Status = ({ status }) => {
   const getColor = (status) => {
-    let color = "bg-slate-200";
+    let color = "bg-red-300";
     switch (status.toLowerCase()) {
       case "done":
-        color = "bg-green-200";
+        color = "bg-green-500";
         return color;
       case "started":
-        color = "bg-yellow-200";
+        color = "bg-yellow-400";
         return color;
       case "not started":
-        color = "bg-red-200";
+        color = "bg-purple-200";
         return color;
     }
     return color;
