@@ -2,7 +2,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const EditTicket = () => {
+const EditTicket = ({ ticket }) => {
+  const EDITMODE = ticket._id === "new" ? false : true;
+
   const router = useRouter();
   const handleChange = (e) => {
     const value = e.target.value;
@@ -15,16 +17,29 @@ const EditTicket = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/Tickets", {
-      method: "POST",
-      body: JSON.stringify({ formData }),
-      "content-type": "application/json",
-    });
-    if (!res.ok) {
-      throw new Error("Failed to create Ticket.");
+    if (EDITMODE) {
+      const res = await fetch(`/api/Tickets/${ticket._id}`, {
+        method: "PUT",
+        body: JSON.stringify({ formData }),
+        "content-type": "application/json",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update Ticket.");
+      }
+      // router.refresh();
+      // router.push("/"); //it will refresh automatically and goto main page
+    } else {
+      const res = await fetch("/api/Tickets", {
+        method: "POST",
+        body: JSON.stringify({ formData }),
+        "content-type": "application/json",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to create Ticket.");
+      }
+      router.refresh();
+      router.push("/"); //it will refresh automatically and goto main page
     }
-    router.refresh();
-    router.push("/"); //it will refresh automatically and goto main page
   };
   const startingTicketData = {
     title: "",
@@ -35,6 +50,15 @@ const EditTicket = () => {
     category: "Hardware Problem",
   };
 
+  if (EDITMODE) {
+    startingTicketData["title"] = ticket.title;
+    startingTicketData["description"] = ticket.description;
+    startingTicketData["priority"] = ticket.priority;
+    startingTicketData["progress"] = ticket.progress;
+    startingTicketData["status"] = ticket.status;
+    startingTicketData["category"] = ticket.category;
+  }
+
   const [formData, setFormData] = useState(startingTicketData);
   return (
     <div className="flex justify-center ">
@@ -44,7 +68,7 @@ const EditTicket = () => {
         method="post"
         onSubmit={handleSubmit}
       >
-        <h3>Create Your Ticket</h3>
+        <h3>{EDITMODE ? "Update Your Ticket" : "Create Your Ticket"}</h3>
         <br />
 
         <label>Title</label>
@@ -140,7 +164,11 @@ const EditTicket = () => {
           <option value="done"> Done</option>
           <option value="hold"> Hold</option>
         </select>
-        <input type="submit" className="btn max-w-xs" value="Create Ticket" />
+        <input
+          type="submit"
+          className="btn max-w-xs"
+          value={EDITMODE ? "Update Ticket" : "Create Ticket"}
+        />
       </form>
     </div>
   );
